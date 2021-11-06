@@ -10,7 +10,6 @@ import net.ruippeixotog.scalascraper.model._
 import io.Source
 import java.net.URL
 
-
 object HelloWorld {
   def main(args: Array[String]) {
     val name = "QQQ"
