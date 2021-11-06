@@ -11,10 +11,47 @@ import net.ruippeixotog.scalascraper.model._
 import scala.io.Source
 import java.net.URL
 
+import play.api.libs.json._
+import org.json4s._
+import org.json4s.JsonDSL._
+import org.json4s.jackson.JsonMethods._
+
+
+case class StockData(date: String, open: String, high: String, low: String, close: String, adjClose: String, volume: String)
+
+case class HistoricalData(name: String, start: String, end: String, data: List[StockData])
+
+object JsonExample {
+
+  val data = StockData("2021-11-03", "24.980000", "24.990000", "24.980000", "24.990000", "24.990000", "700")
+  val historicalData = HistoricalData("QQQ", "1010", "2020", List(data, data, data))
+
+  val json =
+    ("chart" ->
+      ("name" -> historicalData.name) ~
+        ("start" -> historicalData.start) ~
+        ("end" -> historicalData.end) ~
+
+        ("history" ->
+          historicalData.data.map { w =>
+            (("Date" -> w.date) ~
+              ("Open" -> w.open) ~
+              ("High" -> w.high) ~
+              ("Low" -> w.low) ~
+              ("Close" -> w.close) ~
+              ("Adj Close" -> w.adjClose) ~
+              ("Volume" -> w.volume))
+          })
+      )
+
+  def main(args: Array[String]): Unit = {
+    println(compact(render(json)))
+  }
+}
+
 
 @Singleton
 class ChartController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
-
 
 
   def chart(name: String, period1: String, period2: String) = Action {
@@ -29,7 +66,14 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
     for (i <- info) {
       println(i)
     }
-    Ok(info(0).toString)
+
+    val scalaMap = Map("Abc" -> "V")
+
+    val json = Json.toJson(scalaMap)
+
+    println(json)
+
+    Ok(json)
   }
 
 
