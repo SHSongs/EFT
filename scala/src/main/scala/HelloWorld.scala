@@ -9,7 +9,8 @@ import net.ruippeixotog.scalascraper.model._
 
 import io.Source
 import java.net.URL
-
+import org.json4s._
+import org.json4s.native.JsonMethods._
 object HelloWorld {
   def main(args: Array[String]) {
     val name = "QQQ"
@@ -27,6 +28,8 @@ object HelloWorld {
     for (i <- info) {
       println(i)
     }
+    parse(""" { "numbers" : [1, 2, 3, 4] } """)
+
 
   }
 
@@ -35,7 +38,12 @@ object HelloWorld {
     val doc = browser.parseString(s)
 
     val items = doc >> "tbody" >> "tr" >> pElementList
-    val x = for (item <- items) yield item >> "td" >> texts("span")
+    val x = for (item <- items) yield
+      {
+        val iter = item >> "td" >> texts("span")
+        val lst = iter.toList
+        println(lst(1))
+      }
 
     x
   }
