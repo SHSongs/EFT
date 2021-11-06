@@ -21,19 +21,20 @@ object HelloWorld {
     )
 
     val s = requestServer(financeURL, requestProperties)
+    val x = getInformation(s)
+    println(x)
 
+  }
+
+  def getInformation(s: String): List[Any] = {
     val browser = JsoupBrowser()
     val doc = browser.parseString(s)
 
     val items = doc >> "tbody" >> "tr" >> pElementList
+    val x = for (item <- items) yield item >> "td" >> texts("span")
 
-    for (item <- items){
-      val v = item >> "td" >> texts("span")
-      println(v)
-    }
-
+    x
   }
-
   def requestServer(URL: String, requestProperties: Map[String, String]): String = {
 
     val connection = new URL(URL).openConnection
