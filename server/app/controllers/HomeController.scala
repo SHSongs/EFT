@@ -20,8 +20,4 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.index("Your new application is ready."))
   }
 
-  def chart(name: String, period1: String, period2: String) = Action {
-    Ok(name + period1 + period2)
-  }
-
 }
