@@ -27,6 +27,10 @@ object HelloWorld {
 
     val items = doc >> "tbody" >> "tr" >> pElementList
 
+    for (item <- items){
+      val v = item >> "td" >> texts("span")
+      println(v)
+    }
 
   }
 
