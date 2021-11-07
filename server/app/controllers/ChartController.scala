@@ -61,10 +61,22 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
       )
     )
 
-
+    val u = dateToUnixTime("20211101")
+    println(u)
     Ok(json)
   }
 
+  def dateToUnixTime(date: String): Long = {
+    // date: yyyyMMdd  ex) 20140124
+
+    val dateString = s"$date 00:00:00 GMT"
+
+    import java.text.SimpleDateFormat
+    val dateFormat = new SimpleDateFormat("yyyyMMdd hh:mm:ss z")
+    val unixTime = dateFormat.parse(dateString).getTime/ 1000
+
+    unixTime
+  }
 
   def getInformation(s: String): List[StockData] = {
     val browser = JsoupBrowser()
