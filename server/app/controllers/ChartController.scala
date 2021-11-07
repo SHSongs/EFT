@@ -27,7 +27,11 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
 
 
   def chart(name: String, period1: String, period2: String) = Action {
-    val financeURL = s"https://finance.yahoo.com/quote/$name/history?period1=$period1&period2=$period2&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
+
+    val start = dateToUnixTime(period1).toString
+    val end = dateToUnixTime(period2).toString
+
+    val financeURL = s"https://finance.yahoo.com/quote/$name/history?period1=$start&period2=$end&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
 
     val requestProperties = Map(
       "User-Agent" -> "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"
@@ -61,8 +65,7 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
       )
     )
 
-    val u = dateToUnixTime("20211101")
-    println(u)
+
     Ok(json)
   }
 
