@@ -32,7 +32,7 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
     )
 
     val s = requestServer(url, requestProperties)
-    val info = getInformation(s)
+    val info = YahooFinanceHtmlToStockData(s)
     for (i <- info) {
       println(i)
     }
@@ -87,7 +87,7 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
     unixTime
   }
 
-  def getInformation(s: String): List[StockData] = {
+  def YahooFinanceHtmlToStockData(s: String): List[StockData] = {
     val browser = JsoupBrowser()
     val doc = browser.parseString(s)
 
