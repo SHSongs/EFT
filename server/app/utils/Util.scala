@@ -1,10 +1,14 @@
 package utils
 
-import controllers.HistoricalData
 import play.api.libs.json.{JsObject, Json}
 
 import java.net.URL
 import scala.io.Source
+
+
+case class StockData(date: String, open: String, high: String, low: String, close: String, adjClose: String, volume: String)
+case class HistoricalData(name: String, start: String, end: String, data: List[StockData])
+
 
 object Util {
   def dateToUnixTime(date: String): Long = {

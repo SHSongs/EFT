@@ -4,12 +4,9 @@ import javax.inject._
 import play.api.mvc._
 
 
-case class StockData(date: String, open: String, high: String, low: String, close: String, adjClose: String, volume: String)
-
-case class HistoricalData(name: String, start: String, end: String, data: List[StockData])
-
 import utils.YahooFinanceUtil._
 import utils.Util._
+import utils.HistoricalData
 
 
 @Singleton
