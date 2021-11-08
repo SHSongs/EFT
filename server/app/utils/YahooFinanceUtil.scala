@@ -1,6 +1,5 @@
 package utils
 
-import controllers.StockData
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.texts
 
