@@ -29,3 +29,15 @@ sbt run
 ```
 http://localhost:9000/chart/aaa?period1=20211014&period2=20211016
 ```
+
+
+## Prerequisites
+This repository is tested ...
+```
+- MacOS
+- Intelli J
+- JDK 1.8.0
+
+- Scala 2.13
+- Play framework 2.8.8
+```
