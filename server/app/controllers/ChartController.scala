@@ -10,8 +10,6 @@ import net.ruippeixotog.scalascraper.model._
 
 import scala.io.Source
 import java.net.URL
-
-
 import play.api.libs.json._
 import play.api.libs.json.Json
 
@@ -21,10 +19,8 @@ case class StockData(date: String, open: String, high: String, low: String, clos
 case class HistoricalData(name: String, start: String, end: String, data: List[StockData])
 
 
-
 @Singleton
 class ChartController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
-
 
 
   def chart(ticker: String, period1: String, period2: String) = Action {
@@ -37,11 +33,19 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
 
     val s = requestServer(url, requestProperties)
     val info = getInformation(s)
+    for (i <- info) {
+      println(i)
+    }
 
     val historicalData = HistoricalData(ticker, period1, period2, info)
 
 
+    val json = historicalDataToJson(historicalData)
 
+    Ok(json)
+  }
+
+  def historicalDataToJson(historicalData: HistoricalData): JsObject = {
     val data = historicalData.data.map { w =>
       Json.obj("Date" -> w.date,
         "Open" -> w.open,
@@ -59,12 +63,10 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
         "history" -> data
       )
     )
-
-
-    Ok(json)
+    json
   }
 
-  def makeYahooFinanceURL(ticker: String, period1 : String, period2 : String):String = {
+  def makeYahooFinanceURL(ticker: String, period1: String, period2: String): String = {
     val start = dateToUnixTime(period1).toString
     val end = dateToUnixTime(period2).toString
 
@@ -80,7 +82,7 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
 
     import java.text.SimpleDateFormat
     val dateFormat = new SimpleDateFormat("yyyyMMdd hh:mm:ss z")
-    val unixTime = dateFormat.parse(dateString).getTime/ 1000
+    val unixTime = dateFormat.parse(dateString).getTime / 1000
 
     unixTime
   }
@@ -93,7 +95,7 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
     val x = for (i <- items) yield {
       val text = i >> "td" >> texts("span")
       val lst = text.toList
-      if (lst.length > 2){
+      if (lst.length > 2) {
         StockData(lst(0), lst(1), lst(2), lst(3), lst(4), lst(5), lst(6))
       }
       else {
