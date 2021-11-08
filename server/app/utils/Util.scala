@@ -33,6 +33,7 @@ object Util {
         "Adj Close" -> w.adjClose,
         "Volume" -> w.volume)
     }
+    
     val json = Json.obj(
       "type" -> "chart",
       "data" -> Json.obj(
