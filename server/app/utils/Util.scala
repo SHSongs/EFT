@@ -54,7 +54,7 @@ object Util {
       case (name, value) => connection.setRequestProperty(name, value)
     })
 
-    val s = Source.fromInputStream(connection.getInputStream).getLines.mkString("\n")
+    val s = Source.fromInputStream(connection.getInputStream).getLines().mkString("\n")
 
     s
   }
