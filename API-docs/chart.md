@@ -16,7 +16,7 @@ example) [http://localhost:9000/chart/aaa?period1=20211014&period2=20211016](htt
 
    **Required:**
  
-   `ticker=[string]`
+   `ticker=[string]`  주식의 ticker를 입력합니다 example) QQQ
 
 
 * **query Params**
