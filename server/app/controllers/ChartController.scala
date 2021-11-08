@@ -26,12 +26,12 @@ case class HistoricalData(name: String, start: String, end: String, data: List[S
 class ChartController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
 
 
-  def chart(name: String, period1: String, period2: String) = Action {
+  def chart(ticker: String, period1: String, period2: String) = Action {
 
     val start = dateToUnixTime(period1).toString
     val end = dateToUnixTime(period2).toString
 
-    val financeURL = s"https://finance.yahoo.com/quote/$name/history?period1=$start&period2=$end&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
+    val financeURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=$start&period2=$end&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
 
     val requestProperties = Map(
       "User-Agent" -> "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"
@@ -40,7 +40,7 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
     val s = requestServer(financeURL, requestProperties)
     val info = getInformation(s)
 
-    val historicalData = HistoricalData(name, period1, period2, info)
+    val historicalData = HistoricalData(ticker, period1, period2, info)
 
 
     for (i <- info) {
