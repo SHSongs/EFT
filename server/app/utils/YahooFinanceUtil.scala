@@ -24,9 +24,10 @@ object YahooFinanceUtil {
     val doc = browser.parseString(s)
 
     val items = doc >> "tbody" >> "tr" >> pElementList
+
     val x = for {i <- items
-                 val text = i >> "td" >> texts("span")
-                 val lst = text.toList
+                 text = i >> "td" >> texts("span")
+                 lst = text.toList
                  if (lst.length > 2)
                  } yield {
 
