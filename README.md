@@ -1,6 +1,6 @@
 # EFT
 
-https://stackoverflow.com/questions/46922415/does-yahoo-finance-ban-web-scrapy-or-not
+[warning](https://stackoverflow.com/questions/46922415/does-yahoo-finance-ban-web-scrapy-or-notg)
 
 
 **Chart**
@@ -67,7 +67,8 @@ example) [http://localhost:9000/chart/aaa?period1=20211014&period2=20211016](htt
 }
 ```
 
-* **Sample Call:**
+* **Sample Call:**  
+
 [sample code](https://github.com/SHSongs/EFT/blob/main/client/main.py)
 
 ```py
