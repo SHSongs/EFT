@@ -7,3 +7,25 @@
 
 - [Chart docs](/API-docs/chart.md)  
 원하는 티커의 가격 정보를 볼 수 있는 API 입니다
+
+
+## 사용 방법
+1. Repository를 clone 합니다.
+```
+git clone https://github.com/SHSongs/EFT.git
+```
+
+2. server 폴더에 접근합니다.
+```
+cd server
+```
+
+3. server를 실행합니다.
+```
+sbt run
+```
+
+4. 요청을 보냅니다.
+```
+http://localhost:9000/chart/aaa?period1=20211014&period2=20211016
+```
