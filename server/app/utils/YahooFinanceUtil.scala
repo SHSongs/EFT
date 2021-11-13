@@ -9,7 +9,6 @@ import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import utils.Util.dateToUnixTime
 
 object YahooFinanceUtil {
-
   def makeYahooFinanceURL(ticker: String, period1: String, period2: String): String = {
     val start = dateToUnixTime(period1).toString
     val end = dateToUnixTime(period2).toString
@@ -19,7 +18,7 @@ object YahooFinanceUtil {
     yahooFinanceURL
   }
 
-  def YahooFinanceHtmlToStockData(s: String): List[StockData] = {
+  def yahooFinanceHtmlToStockData(s: String): List[StockData] = {
     val browser = JsoupBrowser()
     val doc = browser.parseString(s)
 
@@ -33,7 +32,6 @@ object YahooFinanceUtil {
 
       StockData(lst(0), lst(1), lst(2), lst(3), lst(4), lst(5), lst(6))
     }
-
 
     x
   }

@@ -3,18 +3,16 @@ package controllers
 import javax.inject._
 import play.api.mvc._
 
-
-import utils.YahooFinanceUtil._
-import utils.Util._
+import utils.YahooFinanceUtil.makeYahooFinanceURL
+import utils.YahooFinanceUtil.yahooFinanceHtmlToStockData
+import utils.Util.requestServer
+import utils.Util.historicalDataToJson
 import utils.HistoricalData
 
 
 @Singleton
 class ChartController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
-
   def chart(ticker: String, period1: String, period2: String) = Action {
-
-
     val url = makeYahooFinanceURL(ticker, period1, period2)
 
     val requestProperties = Map(
@@ -22,17 +20,13 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
     )
 
     val s = requestServer(url, requestProperties)
-    val info = YahooFinanceHtmlToStockData(s)
-    for (i <- info) {
-      println(i)
-    }
+    val info = yahooFinanceHtmlToStockData(s)
+
+    for (i <- info) println(i)
 
     val historicalData = HistoricalData(ticker, period1, period2, info)
-
     val json = historicalDataToJson(historicalData)
 
     Ok(json)
   }
-
-
 }

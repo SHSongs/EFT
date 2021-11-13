@@ -4,19 +4,19 @@ import play.api.libs.json.{JsObject, Json}
 
 import java.net.URL
 import scala.io.Source
+import java.text.SimpleDateFormat
 
 
 case class StockData(date: String, open: String, high: String, low: String, close: String, adjClose: String, volume: String)
+
 case class HistoricalData(name: String, start: String, end: String, data: List[StockData])
 
 
 object Util {
   def dateToUnixTime(date: String): Long = {
     // date: yyyyMMdd  ex) 20140124
-
     val dateString = s"$date 00:00:00 GMT"
 
-    import java.text.SimpleDateFormat
     val dateFormat = new SimpleDateFormat("yyyyMMdd hh:mm:ss z")
     val unixTime = dateFormat.parse(dateString).getTime / 1000
 
@@ -33,7 +33,7 @@ object Util {
         "Adj Close" -> w.adjClose,
         "Volume" -> w.volume)
     }
-    
+
     val json = Json.obj(
       "type" -> "chart",
       "data" -> Json.obj(
@@ -43,12 +43,12 @@ object Util {
         "history" -> data
       )
     )
+
     json
   }
 
 
   def requestServer(URL: String, requestProperties: Map[String, String]): String = {
-
     val connection = new URL(URL).openConnection
     requestProperties.foreach({
       case (name, value) => connection.setRequestProperty(name, value)
