@@ -8,16 +8,16 @@ def get_chart(ticker, period1, period2):
 
     request = ul.Request(url)
     response = ul.urlopen(request)
+
     rescode = response.getcode()
+    if rescode != 200:
+        return None
 
-    if rescode == 200:
-        responsedata = response.read()
+    responsedata = response.read()
+    my_json = responsedata.decode('utf8').replace("'", '"')
+    data = json.loads(my_json)
 
-        my_json = responsedata.decode('utf8').replace("'", '"')
-        data = json.loads(my_json)
-        return data["data"]["history"]
-
-    return "fail"
+    return data["data"]["history"]
 
 
 info = get_chart("aaa", 20211015, 20211104)
