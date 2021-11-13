@@ -49,6 +49,12 @@ object Util {
     json
   }
 
+  def makeJson(data_type: String, data: String): JsObject = {
+    Json.obj(
+      "type" -> data_type,
+      "data" -> data
+    )
+  }
 
   def requestServer(URL: String, requestProperties: Map[String, String]): String = {
     val connection = new URL(URL).openConnection
