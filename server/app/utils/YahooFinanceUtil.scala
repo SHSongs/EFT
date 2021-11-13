@@ -10,8 +10,15 @@ import utils.Util.dateToUnixTime
 
 object YahooFinanceUtil {
   def makeYahooFinanceURL(ticker: String, period1: String, period2: String): String = {
-    val start = dateToUnixTime(period1).toString
-    val end = dateToUnixTime(period2).toString
+    var start = ""
+    var end = ""
+    try {
+      start = dateToUnixTime(period1).toString
+      end = dateToUnixTime(period2).toString
+    }
+    catch {
+      case ex: Exception => throw new Exception(ex.getMessage)
+    }
 
     val yahooFinanceURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=$start&period2=$end&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
 

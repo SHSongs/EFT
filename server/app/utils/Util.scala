@@ -16,11 +16,13 @@ object Util {
   def dateToUnixTime(date: String): Long = {
     // date: yyyyMMdd  ex) 20140124
     val dateString = s"$date 00:00:00 GMT"
-
     val dateFormat = new SimpleDateFormat("yyyyMMdd hh:mm:ss z")
-    val unixTime = dateFormat.parse(dateString).getTime / 1000
 
-    unixTime
+    try {
+      dateFormat.parse(dateString).getTime / 1000
+    } catch {
+      case ex: java.text.ParseException => throw new Exception("date format error!")
+    }
   }
 
   def historicalDataToJson(historicalData: HistoricalData): JsObject = {
@@ -47,6 +49,12 @@ object Util {
     json
   }
 
+  def makeJson(data_type: String, data: String): JsObject = {
+    Json.obj(
+      "type" -> data_type,
+      "data" -> data
+    )
+  }
 
   def requestServer(URL: String, requestProperties: Map[String, String]): String = {
     val connection = new URL(URL).openConnection
