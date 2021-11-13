@@ -22,7 +22,7 @@ class ExampleFilter @Inject()(
 
   override def apply(nextFilter: RequestHeader => Future[Result])
            (requestHeader: RequestHeader): Future[Result] = {
-    // Run the next filter in the chain. This will call other filters
+    // R un the next filter in the chain. This will call other filters
     // and eventually call the action. Take the result and modify it
     // by adding a new header.
     nextFilter(requestHeader).map { result =>
