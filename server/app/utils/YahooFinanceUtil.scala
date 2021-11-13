@@ -24,12 +24,12 @@ object YahooFinanceUtil {
 
     val items = doc >> "tbody" >> "tr" >> pElementList
 
-    val x = for {i <- items
-                 text = i >> "td" >> texts("span")
-                 lst = text.toList
-                 if (lst.length > 2)
-                 } yield {
-
+    val x = for {
+      i <- items
+      text = i >> "td" >> texts("span")
+      lst = text.toList
+      if (lst.length > 2)
+    } yield {
       StockData(lst(0), lst(1), lst(2), lst(3), lst(4), lst(5), lst(6))
     }
 
