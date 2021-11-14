@@ -19,8 +19,6 @@ object YahooFinanceUtil {
     catch {
       case ex: Exception => Optional.empty()
     }
-
-
   }
 
   def yahooFinanceHtmlToStockData(s: String): List[StockData] = {
@@ -37,7 +35,6 @@ object YahooFinanceUtil {
     } yield {
       StockData(lst(0), lst(1), lst(2), lst(3), lst(4), lst(5), lst(6))
     }
-
     x
   }
 }
