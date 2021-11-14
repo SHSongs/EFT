@@ -2,27 +2,25 @@ package utils
 
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.texts
-
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
-
 import utils.Util.dateToUnixTime
 
+import java.util.Optional
+
 object YahooFinanceUtil {
-  def makeYahooFinanceURL(ticker: String, period1: String, period2: String): String = {
-    var start = ""
-    var end = ""
+  def makeYahooFinanceURL(ticker: String, period1: String, period2: String): Optional[String] = {
     try {
-      start = dateToUnixTime(period1).toString
-      end = dateToUnixTime(period2).toString
+      val start = dateToUnixTime(period1).toString
+      val end = dateToUnixTime(period2).toString
+      val yahooFinanceURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=$start&period2=$end&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
+      Optional.of(yahooFinanceURL)
     }
     catch {
-      case ex: Exception => throw new Exception(ex.getMessage)
+      case ex: Exception => Optional.empty()
     }
 
-    val yahooFinanceURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=$start&period2=$end&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
 
-    yahooFinanceURL
   }
 
   def yahooFinanceHtmlToStockData(s: String): List[StockData] = {
