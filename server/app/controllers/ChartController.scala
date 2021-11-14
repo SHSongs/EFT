@@ -1,43 +1,28 @@
 package controllers
 
-import play.api.libs.json.Json
-
 import javax.inject._
 import play.api.mvc._
-import utils.YahooFinanceUtil.makeYahooFinanceURL
-import utils.YahooFinanceUtil.yahooFinanceHtmlToStockData
-import utils.Util.{historicalDataToJson, makeJson, requestServer}
+import utils.YahooFinanceUtil.{makeYahooFinanceURL, yahooFinanceHtmlToStockData}
+import utils.Util.{historicalDataToJson, makeJson, requestProperties, requestServer}
 import utils.HistoricalData
 
 
 @Singleton
 class ChartController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
   def chart(ticker: String, period1: String, period2: String) = Action {
-    var url = ""
-    var errMsg = ""
-    try {
-      url = makeYahooFinanceURL(ticker, period1, period2)
-    } catch {
-      case ex: Exception => errMsg = ex.getMessage
+    val url = makeYahooFinanceURL(ticker, period1, period2)
+
+    if (!url.isPresent) {
+      Ok(makeJson("chart", "날짜가 잘못 입력되었습니다."))
     }
-
-    if (url != "") {
-      val requestProperties = Map(
-        "User-Agent" -> "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"
-      )
-
-      val s = requestServer(url, requestProperties)
+    else {
+      val s = requestServer(url.get, requestProperties)
       val info = yahooFinanceHtmlToStockData(s)
-
-      for (i <- info) println(i)
 
       val historicalData = HistoricalData(ticker, period1, period2, info)
       val json = historicalDataToJson(historicalData)
 
       Ok(json)
-    }
-    else {
-      Ok(makeJson("chart", errMsg))
     }
   }
 }

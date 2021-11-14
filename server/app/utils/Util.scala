@@ -13,6 +13,10 @@ case class HistoricalData(name: String, start: String, end: String, data: List[S
 
 
 object Util {
+  val requestProperties = Map(
+    "User-Agent" -> "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"
+  )
+
   def dateToUnixTime(date: String): Long = {
     // date: yyyyMMdd  ex) 20140124
     val dateString = s"$date 00:00:00 GMT"
@@ -36,7 +40,7 @@ object Util {
         "Volume" -> w.volume)
     }
 
-    val json = Json.obj(
+    Json.obj(
       "type" -> "chart",
       "data" -> Json.obj(
         "name" -> historicalData.name,
@@ -45,8 +49,6 @@ object Util {
         "history" -> data
       )
     )
-
-    json
   }
 
   def makeJson(data_type: String, data: String): JsObject = {
@@ -61,9 +63,6 @@ object Util {
     requestProperties.foreach({
       case (name, value) => connection.setRequestProperty(name, value)
     })
-
-    val s = Source.fromInputStream(connection.getInputStream).getLines().mkString("\n")
-
-    s
+    Source.fromInputStream(connection.getInputStream).getLines().mkString("\n")
   }
 }
