@@ -10,14 +10,15 @@ import java.util.Optional
 
 object YahooFinanceUtil {
   def makeYahooFinanceURL(ticker: String, period1: String, period2: String): Optional[String] = {
-    try {
-      val start = dateToUnixTime(period1).toString
-      val end = dateToUnixTime(period2).toString
-      val yahooFinanceURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=$start&period2=$end&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
+    val start = dateToUnixTime(period1)
+    val end = dateToUnixTime(period2)
+
+    if (start.isPresent && end.isPresent) {
+      val yahooFinanceURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=${start.get.toString}&period2=${end.get.toString}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
       Optional.of(yahooFinanceURL)
     }
-    catch {
-      case ex: Exception => Optional.empty()
+    else {
+      Optional.empty()
     }
   }
 
