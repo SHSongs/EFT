@@ -41,3 +41,21 @@ This repository is tested ...
 - Scala 2.13
 - Play framework 2.8.8
 ```
+
+## Docker
+[shsongs/scala-play](https://hub.docker.com/repository/docker/shsongs/scala-play)
+
+1. image를 docker hub에서 받아옵니다
+```
+docker pull shsongs/scala-play:0.1
+```
+
+2. image를 container로 만들어 실행시킵니다.
+```
+docker run -p 9000:9000 shsongs/scala-play:0.1
+```
+
+3. 요청을 보냅니다.
+```
+http://localhost:9000/chart/aaa?period1=20211014&period2=20211016
+```
