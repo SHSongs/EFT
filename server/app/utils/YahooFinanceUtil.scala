@@ -12,13 +12,14 @@ object YahooFinanceUtil {
     val start = dateToUnixTime(period1)
     val end = dateToUnixTime(period2)
 
-    if (start.isDefined && end.isDefined) {
-      val yahooFinanceURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=${start.get.toString}&period2=${end.get.toString}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
-      Option(yahooFinanceURL)
+    val x: Option[String] = (start, end) match {
+      case (Some(s), Some(e)) => {
+        val yahooFinanceURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=${s.toString}&period2=${e.toString}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
+        Option(yahooFinanceURL)
+      }
+      case _ => Option.empty
     }
-    else {
-      Option.empty
-    }
+    x
   }
 
   def yahooFinanceHtmlToStockData(s: String): List[StockData] = {
