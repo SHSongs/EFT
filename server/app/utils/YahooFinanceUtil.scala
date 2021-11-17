@@ -6,20 +6,20 @@ import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import utils.Util.dateToUnixTime
 
-import java.util.Optional
 
 object YahooFinanceUtil {
-  def makeYahooFinanceURL(ticker: String, period1: String, period2: String): Optional[String] = {
+  def makeYahooFinanceURL(ticker: String, period1: String, period2: String): Option[String] = {
     val start = dateToUnixTime(period1)
     val end = dateToUnixTime(period2)
 
-    if (start.isPresent && end.isPresent) {
-      val yahooFinanceURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=${start.get.toString}&period2=${end.get.toString}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
-      Optional.of(yahooFinanceURL)
+    val x: Option[String] = (start, end) match {
+      case (Some(s), Some(e)) => {
+        val yahooFinanceURL = s"https://finance.yahoo.com/quote/$ticker/history?period1=${s.toString}&period2=${e.toString}&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
+        Option(yahooFinanceURL)
+      }
+      case _ => Option.empty
     }
-    else {
-      Optional.empty()
-    }
+    x
   }
 
   def yahooFinanceHtmlToStockData(s: String): List[StockData] = {

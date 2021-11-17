@@ -12,7 +12,7 @@ class ChartController @Inject()(cc: ControllerComponents) extends AbstractContro
   def chart(ticker: String, period1: String, period2: String) = Action {
     val url = makeYahooFinanceURL(ticker, period1, period2)
 
-    if (!url.isPresent) {
+    if (url.isEmpty) {
       Ok(makeJson("chart", "날짜가 잘못 입력되었습니다."))
     }
     else {

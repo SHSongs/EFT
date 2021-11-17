@@ -5,7 +5,6 @@ import play.api.libs.json.{JsObject, Json}
 import java.net.URL
 import scala.io.Source
 import java.text.SimpleDateFormat
-import java.util.Optional
 
 
 case class StockData(date: String, open: String, high: String, low: String, close: String, adjClose: String, volume: String)
@@ -18,15 +17,15 @@ object Util {
     "User-Agent" -> "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"
   )
 
-  def dateToUnixTime(date: String): Optional[Long] = {
+  def dateToUnixTime(date: String): Option[Long] = {
     // date: yyyyMMdd  ex) 20140124
     val dateString = s"$date 00:00:00 GMT"
     val dateFormat = new SimpleDateFormat("yyyyMMdd hh:mm:ss z")
 
     try {
-      Optional.of(dateFormat.parse(dateString).getTime / 1000)
+      Option(dateFormat.parse(dateString).getTime / 1000)
     } catch {
-      case ex: java.text.ParseException => Optional.empty()
+      case ex: java.text.ParseException => Option.empty
     }
   }
 
