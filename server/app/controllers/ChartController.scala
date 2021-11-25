@@ -1,10 +1,12 @@
 package controllers
 
+import domains.HistoricalData
+
 import javax.inject._
 import play.api.mvc._
-import utils.YahooFinanceUtil.{makeYahooFinanceURL, yahooFinanceHtmlToStockData}
-import utils.Util.{historicalDataToJson, makeJson, requestProperties, requestServer}
-import utils.HistoricalData
+import domains.YahooFinanceDomain.{makeYahooFinanceURL, yahooFinanceHtmlToStockData}
+import utils.jsonUtil.{historicalDataToJson, makeJson}
+import utils.requestUtil.{requestProperties, requestServer}
 
 
 @Singleton

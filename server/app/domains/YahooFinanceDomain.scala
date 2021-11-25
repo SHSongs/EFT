@@ -1,13 +1,13 @@
-package utils
+package domains
 
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.texts
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
-import utils.Util.dateToUnixTime
+import utils.timeUtil.dateToUnixTime
 
 
-object YahooFinanceUtil {
+object YahooFinanceDomain {
   def makeYahooFinanceURL(ticker: String, period1: String, period2: String): Option[String] = {
     val start = dateToUnixTime(period1)
     val end = dateToUnixTime(period2)
