@@ -3,6 +3,7 @@ package utils
 import java.net.URL
 import scala.io.Source
 
+
 object requestUtil {
   val requestProperties = Map(
     "User-Agent" -> "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"

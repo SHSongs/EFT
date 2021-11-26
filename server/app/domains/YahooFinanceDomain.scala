@@ -7,8 +7,8 @@ import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import utils.timeUtil.dateToUnixTime
 
 
-object YahooFinanceDomain {
-  def makeYahooFinanceURL(ticker: String, period1: String, period2: String): Option[String] = {
+class YahooFinanceDomain extends StockProvider {
+  override def makeURL(ticker: String, period1: String, period2: String): Option[String] = {
     val start = dateToUnixTime(period1)
     val end = dateToUnixTime(period2)
 
@@ -22,7 +22,7 @@ object YahooFinanceDomain {
     x
   }
 
-  def yahooFinanceHtmlToStockData(s: String): List[StockData] = {
+  override def htmlToStockData(s: String): List[StockData] = {
     val browser = JsoupBrowser()
     val doc = browser.parseString(s)
 
